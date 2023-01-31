@@ -68,7 +68,7 @@ kepInstance::kepInstance(string fileName)
 void kepInstance::print()
 {
   cout << "KEP instance\n";
-  cout << nbCouples << " Couples\n";
+  cout << nbCouples << " couples\n";
   cout << nbTransplants << " potential transplants\n";
 
   for(int index=0;index<nbTransplants;++index)
