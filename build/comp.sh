@@ -1,8 +1,8 @@
 rm kep.exe
 
-g++ -c ../src/main.cpp
-g++ main.o -o kep.exe
+g++ -c ../src/kepInstance.cpp ../src/main.cpp
+g++ kepInstance.o main.o -o kep.exe
 
-rm main.o
+rm kepInstance.o main.o
 
 ./kep.exe
