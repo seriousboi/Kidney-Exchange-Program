@@ -9,7 +9,7 @@ https://fr.overleaf.com/read/ymybhkqfzcjn
 
 -pour compiler le programme sous Linux:
 se placer dans le dossier build
-lancer le script shell (oui c'est pas un makefile) avec la commande ci dessous
+lancer le script shell (non il faut pas utliser cmake) avec la commande ci dessous
 sh comp.sh
 
 
