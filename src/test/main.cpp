@@ -1,5 +1,5 @@
 #include<iostream>
-#include "kepInstance.h"
+#include "../common/kepInstance.h"
 using namespace std;
 
 
