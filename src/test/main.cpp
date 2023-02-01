@@ -5,7 +5,7 @@ using namespace std;
 
 
 int main() {
-  kepInstance testInstance("../data/fewInstances/00036-00000001.wmd");
+  KepInstance testInstance("../data/fewInstances/00036-00000001.wmd");
   testInstance.print();
   return 0;
 }

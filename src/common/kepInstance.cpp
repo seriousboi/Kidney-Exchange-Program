@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-kepInstance::kepInstance(string fileName)
+KepInstance::KepInstance(string fileName)
 {
   ifstream dataStream(fileName); /* ouverture du fichier */
   if(!dataStream)
@@ -52,9 +52,10 @@ kepInstance::kepInstance(string fileName)
   {
     getline(dataStream,line);
 
-    int start = stoi(line.substr(0,line.find(","))); /* on extrait puis on coupe la partie du string qui nous intéresse plusieurs fois */
+    /* /!\ -1 sur les indices car les fichiers sont pourrave /!\ */
+    int start = stoi(line.substr(0,line.find(",")))-1; /* on extrait puis on coupe la partie du string qui nous intéresse plusieurs fois */
     line.erase(0,line.find(",")+1);
-    int end = stoi(line.substr(0,line.find(",")));
+    int end = stoi(line.substr(0,line.find(",")))-1;
     line.erase(0,line.find(",")+1);
     float benefit = stof(line);
 
@@ -65,7 +66,7 @@ kepInstance::kepInstance(string fileName)
 
 
 
-void kepInstance::print()
+void KepInstance::print()
 {
   cout << "KEP instance\n";
   cout << nbCouples << " couples\n";
@@ -85,7 +86,7 @@ void kepInstance::print()
 
 
 
-kepInstance::kepInstance()
+KepInstance::KepInstance()
 {
   nbCouples = 0;
   nbTransplants = 0;

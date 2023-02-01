@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include <vector>
+#include "../common/kepInstance.h"
 using namespace std;
 
 #ifndef graphFile
@@ -11,7 +12,7 @@ class Arc
 {
   public:
     int flow;
-    int cost;
+    int cost; /* nos coûts sont entier dans la librairie, oups ¯\_(ツ)_/¯ , pas trop grave considérant qu'on étudie le cas où tout les coûts sont 1 */
     int capacity;
     int residualCapacity;
 
@@ -33,8 +34,12 @@ class Graph
     int sourceIndex; /* identifiants du la super source et du super puit si il existent, -1 sinon */
     int sinkIndex;
 
+    int maxDist; /* valeur qui sert à remplacer INT_MAX dans les algorithmes, c'est n'est pas la distance maximale mesurable dans le graphe mais un majorant de celle ci */
+
     Graph(int nbVertices);
-    Graph(string filename); /* ne focntionne pas sur les fichiers KEP */
+    Graph(string filename); /* ne focntionne pas sur les fichiers KEP, utiliser le constructeur qui prend un objet KepInstance */
+    Graph(KepInstance instance); /* créé le graphe d'une instance de KEP (avec les arcs négatifs transformés) */
+    void initMaxDist();
     void addSuperSourceSink();
     void symmetrisation();
     void addArc(int start,int end,int capacity,int cost);

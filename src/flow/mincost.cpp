@@ -1,6 +1,5 @@
 #include <unordered_set>
 #include <vector>
-#include <limits.h>
 #include <iostream>
 #include <chrono>
 #include "graph.h"
@@ -48,7 +47,7 @@ vector<vector<int>>  dijkstra(Graph & graph,int start,vector<int> potentials)
   vector<int> & predecessors = results[0];
   vector<int> & distances = results[1];
   predecessors.resize(graph.nbVertices,-1);
-  distances.resize(graph.nbVertices,INT_MAX);
+  distances.resize(graph.nbVertices,graph.maxDist);
 
   distances[start] = 0; /* on initialise les variables de l'algorithme */
   predecessors[start] = start;
@@ -58,7 +57,7 @@ vector<vector<int>>  dijkstra(Graph & graph,int start,vector<int> potentials)
   int currentVertex;
   while(not temporarilyTagged.empty())
   {
-    currentVertex = findClosestTempVertex(distances,temporarilyTagged);
+    currentVertex = findClosestTempVertex(distances,temporarilyTagged,graph.maxDist);
     temporarilyTagged.erase(currentVertex);
 
     for(auto & [neighbor,arcs] : graph.vertices[currentVertex])
@@ -82,9 +81,9 @@ vector<vector<int>>  dijkstra(Graph & graph,int start,vector<int> potentials)
 
 
 
-int findClosestTempVertex(vector<int> distances,unordered_set<int> temporarilyTagged)
+int findClosestTempVertex(vector<int> distances,unordered_set<int> temporarilyTagged,int maxDist)
 { /* fonction pour dijkstra, trouve le sommet avec une étiquette temporaire le plus proche du départ */
-  int mininmum = INT_MAX;
+  int mininmum = maxDist;
   int closestVertex = -1;
   for(int vertex:temporarilyTagged)
   {
@@ -116,15 +115,14 @@ void increaseAlongPath(Graph & graph,int start,int end,vector<int> predecessors,
 
 int findMaxFlowAlongPath(Graph & graph,int start,int end,vector<int> predecessors,vector<int> potentials)
 {
-  int minimum = INT_MAX;
+  int minimum = graph.maxDist;
   int currentVertex = end;
   int nextVertex = predecessors[end];
 
   while(currentVertex != start)
   {
-
     /* ce truc est super moche, il vaudrait mieux que dijkstra garde en mémoire le sous indice des arcs du chemin */
-    int minEdgeCost = INT_MAX; /* on cherche le sous indice d'un arc de capacité résiduelle strictement positive et de coût minimal parmis les arcs entre les deux sommet du chemin */
+    int minEdgeCost = graph.maxDist; /* on cherche le sous indice d'un arc de capacité résiduelle strictement positive et de coût minimal parmis les arcs entre les deux sommet du chemin */
     int subEdgeIndex = -1;
     for(int subArcIndex=0;subArcIndex<graph.vertices[nextVertex][currentVertex].size();subArcIndex++)
     {
@@ -139,7 +137,6 @@ int findMaxFlowAlongPath(Graph & graph,int start,int end,vector<int> predecessor
         }
       }
     }
-
     if(graph.vertices[nextVertex].at(currentVertex)[subEdgeIndex].residualCapacity < minimum)
     {
       minimum = graph.vertices[nextVertex].at(currentVertex)[subEdgeIndex].residualCapacity;
@@ -200,4 +197,23 @@ int cost_sol(Graph & graph)
     }
   }
   return cost_tot;
+}
+
+
+
+void printAllElmts(vector<int> array,bool withIndex)
+{
+  cout << "[";
+  int index = 0;
+  vector<int>::iterator iterator = array.begin();
+  for(iterator;iterator!=array.end();++iterator)
+  {
+    if(withIndex)
+    {
+      cout << index << ":";
+      ++index;
+    }
+    cout << *iterator << ",";
+  }
+  cout << "]\n";
 }

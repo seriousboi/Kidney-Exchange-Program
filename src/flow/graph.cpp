@@ -2,8 +2,73 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
+#include <limits.h>
+#include "../common/kepInstance.h"
 #include "graph.h"
 using namespace std;
+
+
+
+Graph::Graph(KepInstance instance) /* on créé directement le graphe qui a subi la transformation des arcs négatifs */
+{
+  sourceIndex = -1; /* pas de super-source ou de super-puit définis por l'instant */
+  sinkIndex = -1;
+
+  nbVertices = 2*instance.nbCouples; /* on a deux sommets par couple */
+
+  vertices = vector<unordered_map<int,vector<Arc>>>(nbVertices); /* le sommet i- est à la position 2*i, le sommet i+ est à la position (2*i)+1 */
+
+  productions = vector<int>(nbVertices,0); /* on initialise les productions à 0, on les changera au fur et à mesure que les arcs décisionels sont ajoutés */
+
+  for(int coupleIndex=0;coupleIndex<instance.nbCouples;++coupleIndex)
+  { /* ajout des arcs limitants (i+,i-) */
+    int iMinus = 2*coupleIndex;
+    int iPlus = (2*coupleIndex)+1;
+    int capacity = 1;
+    int cost = 0;
+    addArc(iPlus,iMinus,capacity,cost);
+  }
+
+  for(int transpIndex=0;transpIndex<instance.nbTransplants;++transpIndex)
+  { /* ajout des arcs décisionels (j+,i-), inverse des arcs (i-,j+) */
+    int i = instance.validTransplants[transpIndex][0];
+    int j = instance.validTransplants[transpIndex][1];
+    int iMinus = 2*i;
+    int jPlus = (2*j)+1;
+    int capacity = 1;
+    int cost = instance.transplantsBenefits[transpIndex];
+    addArc(jPlus,iMinus,capacity,cost);
+    productions[iMinus] -= 1;
+    productions[jPlus] += 1;
+  }
+  initMaxDist();
+}
+
+
+
+void Graph::initMaxDist()
+{
+  maxDist = 0;
+  for(int vertex=0;vertex< nbVertices;++vertex)
+  {
+    for(auto &[neighbor,edges]:vertices[vertex])
+    {
+      for (int edge=0;edge<edges.size();++edge)
+      {
+        maxDist += abs(edges[edge].cost);
+      }
+    }
+  }
+  if(maxDist < INT_MAX/1000)
+  {
+    maxDist = 1+maxDist*10;
+  }
+  else
+  {
+    cout << "maxDist (" << maxDist << ") is too big, graph unfit to use theses algorithms on\n";
+  }
+}
 
 
 
@@ -128,10 +193,10 @@ void Graph::symmetrisation()
 
 Graph::Graph(string filename)
 {
-  std::ifstream dataStream(filename);
+  ifstream dataStream(filename);
   if(!dataStream)
   {
-    std::cout << "oof, cannot open file " << filename << std::endl;
+    cout << "oof, cannot open file " << filename << endl;
     return;
   }
 
@@ -173,6 +238,7 @@ Graph::Graph(string filename)
     }
     dataStream >> lineIdentifier;
   }
+  initMaxDist();
 }
 
 
@@ -180,7 +246,7 @@ Graph::Graph(string filename)
 Graph::Graph(int nbVertices)
 {
   this->nbVertices = nbVertices;
-  vertices = std::vector<std::unordered_map<int,vector<Arc>>>(nbVertices);
+  vertices = vector<unordered_map<int,vector<Arc>>>(nbVertices);
   sourceIndex = -1;
   sinkIndex = -1;
 }
@@ -189,28 +255,28 @@ Graph::Graph(int nbVertices)
 
 void Graph::print() /* affiche les listes d'adjacences sous forme <sommet i: (voisin1,coût1) (voisin2,coût2)> */
 {
-  std::cout << "graph with " << nbVertices << " vertices\n";
+  cout << "graph with " << nbVertices << " vertices\n";
   for(int vertex=0;vertex<nbVertices;++vertex)
   {
-    std::cout << "vertex " << vertex;
+    cout << "vertex " << vertex;
     if(productions[vertex]>0)
     {
-      std::cout << " +(" << productions[vertex] << ")";
+      cout << " +(" << productions[vertex] << ")";
     }
     if(productions[vertex]<0)
     {
-      std::cout << " -(" << -productions[vertex] << ")";
+      cout << " -(" << -productions[vertex] << ")";
     }
-    std::cout<< ": ";
+    cout<< ": ";
 
     for(auto &[neighbor,arcs] : vertices[vertex])
     {
       for(Arc & arc : arcs)
       {
-        std::cout << "(" << neighbor << "," << arc.capacity << "," << arc.cost << ") ";
+        cout << "(" << neighbor << "," << arc.capacity << "," << arc.cost << ") ";
       }
     }
-    std::cout << "\n";
+    cout << "\n";
   }
 }
 
@@ -229,5 +295,5 @@ Arc::Arc(int capacity,int cost)
 
 void Arc::print() /* affiche les détails d'un arc, mais n'affiche pas le sommet sortant et le sommet entrant */
 {
-  std::cout << "(flow:" << flow << ", cap:" << capacity << ", rescap:" << residualCapacity << ", cost:" << cost << ", pairId:" << pairId << ") ";
+  cout << "(flow:" << flow << ", cap:" << capacity << ", rescap:" << residualCapacity << ", cost:" << cost << ", pairId:" << pairId << ") ";
 }

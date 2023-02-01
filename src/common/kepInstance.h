@@ -2,9 +2,12 @@
 #include <string>
 using namespace std;
 
+#ifndef kepInstanceFile
+#define kepInstanceFile
 
 
-class kepInstance
+
+class KepInstance
 {
   public:
     int nbCouples;
@@ -12,7 +15,11 @@ class kepInstance
     vector<vector<int>> validTransplants;
     vector<int> transplantsBenefits;
 
-    kepInstance();
-    kepInstance(string fileName);
+    KepInstance();
+    KepInstance(string fileName);
     void print();
 };
+
+
+
+#endif
