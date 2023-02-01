@@ -1,4 +1,5 @@
 data/kidney/*
 build/*
 !build/comp.sh
+!build/flowcomp.sh
 !build/CMakeLists.txt

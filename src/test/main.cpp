@@ -5,7 +5,7 @@ using namespace std;
 
 
 int main() {
-  kepInstance yaya("../data/fewInstances/00036-00000001.wmd");
-  yaya.print();
+  kepInstance testInstance("../data/fewInstances/00036-00000001.wmd");
+  testInstance.print();
   return 0;
 }
