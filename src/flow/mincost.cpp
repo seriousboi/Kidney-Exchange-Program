@@ -2,13 +2,38 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
+#include "../common/kepInstance.h"
+#include "../common/kepSolution.h"
 #include "graph.h"
 #include "mincost.h"
 using namespace std;
 
 
 
-void pccs(Graph & graph)
+KepSolution getSolutionFromGraph(Graph & graph,KepInstance & instance)
+{
+  vector<int> chosenTransplantsIndexes(0);
+
+  for(int transpIndex=0;transpIndex<instance.nbTransplants;++transpIndex)
+  {
+    int i = instance.validTransplants[transpIndex][0];
+    int j = instance.validTransplants[transpIndex][1];
+    int iMinus = 2*i;
+    int jPlus = (2*j)+1;
+
+    int flow = graph.vertices[jPlus][iMinus][0].flow; /* le [0] est là car notre classe graphe peut avoir des multi-arcs mais on sait que dans les graphes de KEP on a toujours un seul arc entre deux sommets (même dans le résiduel) */
+    if(flow == 0) /* on utilise les arcs inverse */
+    {
+      chosenTransplantsIndexes.push_back(transpIndex);
+    }
+  }
+  KepSolution solution(chosenTransplantsIndexes,instance);
+  return solution;
+}
+
+
+
+void pccs(Graph & graph) /* plus courts chemin augmentants (avec super-source et super-puit) */
 {
   graph.addSuperSourceSink(); /* ajout d'une super source et d'un super puit */
   graph.symmetrisation(); /* on symmétrise pour avoir les arcs inverse */

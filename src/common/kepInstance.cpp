@@ -74,7 +74,7 @@ void KepInstance::print()
 
   for(int index=0;index<nbTransplants;++index)
   {
-    cout << validTransplants[index][0] << " to " << validTransplants[index][1];
+    cout << validTransplants[index][0] << " -> " << validTransplants[index][1];
     if(transplantsBenefits[index] != 1)
     {
       cout << " | " << transplantsBenefits[index];
