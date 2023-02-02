@@ -10,6 +10,7 @@ using namespace std;
 
 int main()
 {
-  testInstance("../../data/fewInstances/00036-00000001.wmd");
+  testInstance("../../data/fewInstances/00036-00000001.wmd",true);
+  //testAllInstances("../../data/kidney",true);
   return 0;
 }

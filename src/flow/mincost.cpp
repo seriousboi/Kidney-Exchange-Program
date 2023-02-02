@@ -1,7 +1,6 @@
 #include <unordered_set>
 #include <vector>
 #include <iostream>
-#include <chrono>
 #include "../common/kepInstance.h"
 #include "../common/kepSolution.h"
 #include "graph.h"

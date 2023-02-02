@@ -20,5 +20,6 @@ int main(){
   string resolutionName = "mano";
   KepTest testest(fileName,resolutionName,testInstance,testSolution,3,false,1);
   testest.print();
+
   return 0;
 }
