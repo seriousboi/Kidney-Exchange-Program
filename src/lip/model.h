@@ -5,14 +5,12 @@
 
 
 
-struct ModelAndVariables
+struct SolutionWithStatus
 {
-  GRBModel model;
-  vector<unordered_map<int,GRBVar>> arcVars;
-  vector<vector<GRBVar>> cycleVars;
+  KepSolution solution;
+  bool optimumReached;
 };
 
 
 
-ModelAndVariables solveModel(KepInstance & instance,int maxCycleSize);
-KepSolution solveModel(GRBModel & model);
+SolutionWithStatus solveModel(KepInstance & instance,int maxCycleSize);

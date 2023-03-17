@@ -7,9 +7,14 @@ using namespace std;
 
 
 
-ModelAndVariables solveModel(KepInstance & instance,int maxCycleSize)
+SolutionWithStatus solveModel(KepInstance & instance,int maxCycleSize)
 {
+  if(maxCycleSize == -1)
+  {
+    maxCycleSize = instance.nbCouples;
+  }
   GRBEnv env = GRBEnv(true); /* initialisation */
+  env.set("OutputFlag","0"); /* chut */
   env.start();
   GRBModel model = GRBModel(env);
 
@@ -100,6 +105,28 @@ ModelAndVariables solveModel(KepInstance & instance,int maxCycleSize)
   model.setObjective(objective,GRB_MAXIMIZE);
   model.optimize();
 
-  ModelAndVariables modelAndVariables = {model,arcVars,cycleVars};
-  return modelAndVariables; /* fait une copie de tout le modèle, on peut faire mieux avec l'équivalent d'un malloc */
+  vector<vector<int>> chosenTransplants;
+  bool optimumReached = false;
+  /* on regarde le status de la résolution */
+  int status = model.get(GRB_IntAttr_Status);
+  if(status == GRB_OPTIMAL)
+  {
+    optimumReached = true;
+    /* construction de la solution */
+    for(int transpIndex=0;transpIndex<instance.nbTransplants;transpIndex++)
+    {
+      int i = instance.validTransplants[transpIndex][0];
+      int j = instance.validTransplants[transpIndex][1];
+
+      int varValue = (int) arcVars[i][j].get(GRB_DoubleAttr_X); /* gurobi connait seulemnt un attribut flotant alors que la varibale est entière ? ಠ_ಠ */
+      if(varValue == 1)
+      {
+        chosenTransplants.push_back({i,j});
+      }
+    }
+  }
+
+  KepSolution solution(chosenTransplants,instance);
+  SolutionWithStatus SwithS = {solution,optimumReached};
+  return SwithS;
 }

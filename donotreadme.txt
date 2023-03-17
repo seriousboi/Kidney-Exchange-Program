@@ -51,3 +51,4 @@ faire meilleur système de tests (pouvoir couper entre deux instances et reprend
 écrire les tests dans des fichiers
 faire des images des graphes à partir des instances et des solutions
 faire une fonction qui consigne les fichiers des résultats dans un tableur
+décomposer en plusieurs fonction la résolution du modèle LIP (-> donc bien gérer en mémoire le modèle)
