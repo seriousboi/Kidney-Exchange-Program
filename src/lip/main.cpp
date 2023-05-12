@@ -10,7 +10,15 @@ using namespace std;
 int main(int argc, char *argv[])
 {
   //testInstance("../../data/fewInstances/00036-00000001.wmd",4);
-  testAllInstances("../../data/kidney",3,false);
   //testInstance(argv[0],20,true);
+  vector<KepTest> results = testAllInstances("../../data/kidney",3,false,false);
+
+  /*
+  for(KepTest result:results)
+  {
+    result.writeInFile(result.name + ".sol");
+  }
+  */
+
   return 0;
 }

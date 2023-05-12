@@ -7,5 +7,5 @@ using namespace std;
 
 
 
-vector<KepTest> testAllInstances(string directoryPath,int maxCycleSize,bool printSolution=true);
-KepTest testInstance(string fileName,int maxCycleSize,bool printSolution=true);
+vector<KepTest> testAllInstances(string directoryPath,int maxCycleSize,bool relaxation,bool printSolution=true,int startStep=0);
+KepTest testInstance(string directoryPath,string fileName,int maxCycleSize,bool relaxation,bool printSolution=true);

@@ -8,3 +8,7 @@ build/flow/*
 
 build/lip/*
 !build/lip/CMakeLists.txt
+
+solutions/*
+
+matching test/*

@@ -28,6 +28,7 @@ class KepTest
 
     KepTest();
     KepTest(string name,string resolutionName,KepInstance & instance,KepSolution & solution,int maxCycleSize,bool optimumReached,int timeTaken);
+    void writeInFile(string filName);
     void print();
 };
 

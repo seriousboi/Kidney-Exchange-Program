@@ -1,4 +1,5 @@
 #include<iostream>
+#include <fstream>
 #include <string>
 #include <glob.h>
 #include "kepInstance.h"
@@ -20,7 +21,7 @@ vector<string> getFileNames(string directoryPath) /* retourne tout les noms d'in
     string fileName = string(globResult.gl_pathv[index]);
     if(fileName.substr(fileName.length()-4,4) == ".wmd")
     {
-      fileNames.push_back(fileName);
+      fileNames.push_back(fileName.substr(directoryPath.length()+1,fileName.length()));
     }
   }
   return fileNames;
@@ -62,6 +63,35 @@ KepTest::KepTest(string name,string resolutionName,KepInstance & instance,KepSol
 
   instanceRef = &instance;
   solutionRef = &solution;
+}
+
+
+
+void KepTest::writeInFile(string filName)
+{
+  ofstream testFile;
+  testFile.open (filName);
+  if(not testFile.is_open())
+  {
+    cout << "Failed to open " + filName;
+  }
+
+  testFile << "Instance name" << endl;
+  testFile << name << endl;
+  testFile << "Solving method" << endl;
+  testFile << resolutionName << endl;
+  testFile << "Couples amount" << endl;
+  testFile << nbCouples << endl;
+  testFile << "Valid transplants amount" << endl;
+  testFile << nbValidTransplants << endl;
+  testFile << "Maximum cycle size" << endl;
+  testFile << maxCycleSize << endl;
+  testFile << "Solution value" << endl;
+  testFile << solutionValue << endl;
+  testFile << "Time taken (seconds)" << endl;
+  testFile << timeTaken << endl;
+
+  testFile.close();
 }
 
 
