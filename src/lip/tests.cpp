@@ -29,7 +29,6 @@ KepTest testInstance(string fileName,int maxCycleSize,bool printSolution)
 {
   KepInstance instance(fileName);
 
-
   chrono::steady_clock::time_point startTime; /* on mesure le temps pris par l'algo */
   chrono::steady_clock::time_point endTime;
   startTime = chrono::steady_clock::now();

@@ -61,13 +61,6 @@ KepSolution::KepSolution(vector<int> transplantsIndexes,KepInstance & instance)
 
 
 
-bool KepSolution::checkSolution(int maxCycleSize)
-{
-  return false; /* todo */
-}
-
-
-
 float KepSolution::getSolutionBenefit()
 {
   if(instanceRef == NULL)
