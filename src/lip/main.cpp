@@ -7,9 +7,10 @@ using namespace std;
 
 
 
-int main() {
-  //KepInstance instance("../../data/fewInstances/00036-00000001.wmd");
-  //solveModel(instance,30);
-  testAllInstances("../../data/kidney",-1,false);
+int main(int argc, char *argv[])
+{
+  //testInstance("../../data/fewInstances/00036-00000001.wmd",4);
+  testAllInstances("../../data/kidney",3,false);
+  //testInstance(argv[0],20,true);
   return 0;
 }
