@@ -11,15 +11,25 @@ using namespace std;
 
 
 
-vector<KepTest> testAllInstances(string directoryPath,bool printSolution)
+vector<KepTest> testAllInstances(string directoryPath,bool printSolution,int startStep)
 {
   vector<KepTest> tests(0);
 
   vector<string> fileNames = getFileNames(directoryPath);
 
+  int step = 0;
   for(string fileName:fileNames)
   {
-    tests.push_back(testInstance(fileName,printSolution));
+    if(step >= startStep)
+    {
+      cout << fileName << endl;
+      string filePath = directoryPath+"/"+fileName;
+      KepTest test = testInstance(filePath,printSolution);
+      tests.push_back(test);
+      test.writeInFile("../../solutions/flow/"+fileName+".sol");
+      cout << step+1 << " done\n";
+    }
+    ++step;
   }
   return tests;
 }

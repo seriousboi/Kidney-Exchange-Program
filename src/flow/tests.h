@@ -9,5 +9,5 @@ using namespace std;
 
 
 
-vector<KepTest> testAllInstances(string directoryPath,bool printSolution=true);
+vector<KepTest> testAllInstances(string directoryPath,bool printSolution=true,int startStep=0);
 KepTest testInstance(string fileName,bool printSolution=true);

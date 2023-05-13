@@ -11,7 +11,10 @@ int main(int argc, char *argv[])
 {
   //testInstance("../../data/fewInstances/00036-00000001.wmd",4);
   //testInstance(argv[0],20,true);
-  vector<KepTest> results = testAllInstances("../../data/kidney",3,false,false);
+  int maxCycleSize = 3;
+  bool relaxation = false;
+  int step = 75;
+  vector<KepTest> results = testAllInstances("../../data/kidney",maxCycleSize,relaxation,false,step);
 
   /*
   for(KepTest result:results)

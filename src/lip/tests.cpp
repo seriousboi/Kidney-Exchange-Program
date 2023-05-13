@@ -31,6 +31,7 @@ vector<KepTest> testAllInstances(string directoryPath,int maxCycleSize,bool rela
       {
         test.writeInFile("../../solutions/lip/"+to_string(maxCycleSize)+"/"+fileName+".sol");
       }
+      cout << step+1 << "steps done\n";
     }
     ++step;
   }
@@ -42,6 +43,7 @@ vector<KepTest> testAllInstances(string directoryPath,int maxCycleSize,bool rela
 KepTest testInstance(string directoryPath,string fileName,int maxCycleSize,bool relaxation,bool printSolution)
 {
   string filePath = directoryPath+"/"+fileName;
+  cout << fileName << endl;
   KepInstance instance(filePath);
   if(relaxation)
   {
