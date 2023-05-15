@@ -61,7 +61,7 @@ def drawTimeByArcs(resultsDF,denseResultsDF,K3ResultsDF,K4ResultsDF,flowResultsD
 
 def drawValueByArcs(resultsDF,denseResultsDF,K3ResultsDF,K4ResultsDF,flowResultsDF,relaxResultsDF):
     denseResultsDF = denseResultsDF.sort_values("Nb arcs")
-    matchStop = 50
+    matchStop = 54
     X1 = denseResultsDF["Nb arcs"][0:matchStop]
     X2 = denseResultsDF["Nb arcs"]
     Xs = [X1,X2,X2,X2]

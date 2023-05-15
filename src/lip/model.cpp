@@ -30,7 +30,7 @@ SolutionWithStatus solveModel(KepInstance & instance,int maxCycleSize)
   }
 
   /* variables de décisions d'appartenance aux cycles des sommets */
-  int cyclesAmountUpperBound = floor(instance.nbCouples/2);
+  int cyclesAmountUpperBound = ceil(instance.nbCouples/2)+1;
   vector<vector<GRBVar>> cycleVars(instance.nbCouples,vector<GRBVar>(cyclesAmountUpperBound));
   for(int coupleIndex=0;coupleIndex<instance.nbCouples;++coupleIndex)
   {
