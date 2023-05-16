@@ -66,6 +66,25 @@ KepInstance::KepInstance(string fileName)
 
 
 
+void KepInstance::createAdjacencyList()
+{
+  if(not listCreated)
+  {
+    transplantsList = vector<vector<int>>(nbCouples,vector<int>(0));
+
+    for(int transpIndex=0;transpIndex<nbTransplants;transpIndex++)
+    {
+      int i = validTransplants[transpIndex][0];
+      int j = validTransplants[transpIndex][1];
+
+      transplantsList[i].push_back(j);
+    }
+    listCreated = true;
+  }
+}
+
+
+
 void KepInstance::print()
 {
   cout << "KEP instance\n";
@@ -81,6 +100,20 @@ void KepInstance::print()
     }
     cout << endl;
   }
+
+  if(listCreated)
+  {
+    cout << endl;
+    for(int coupleIndex=0;coupleIndex<nbCouples;++coupleIndex)
+    {
+      cout << coupleIndex << ":";
+      for(int patientIndex:transplantsList[coupleIndex])
+      {
+        cout << " " << patientIndex;
+      }
+      cout << endl;
+    }
+  }
   return;
 }
 
@@ -90,4 +123,5 @@ KepInstance::KepInstance()
 {
   nbCouples = 0;
   nbTransplants = 0;
+  listCreated = false;
 }

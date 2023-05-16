@@ -18,6 +18,10 @@ class KepInstance
     KepInstance();
     KepInstance(string fileName);
     void print();
+
+    vector<vector<int>> transplantsList; /* liste d'adjacence du graphe correspondant, n'est pas initialisée avec le constructeur, il faut utiliser la méthode createAdjacencyList */
+    bool listCreated; /* indique si la liste d'adjacence a été créée */
+    void createAdjacencyList();
 };
 
 

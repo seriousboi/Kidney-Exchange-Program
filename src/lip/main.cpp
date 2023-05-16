@@ -9,19 +9,11 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  //testInstance("../../data/fewInstances/00036-00000001.wmd",4);
-  //testInstance(argv[0],20,true);
-  int maxCycleSize = 2;
+  //testInstance("../../data/kidney","00036-00000199.wmd",3,false);
+  int maxCycleSize = 3;
   bool relaxation = false;
-  int step = 55;
+  int step = 0;
   vector<KepTest> results = testAllInstances("../../data/kidney",maxCycleSize,relaxation,false,step);
-
-  /*
-  for(KepTest result:results)
-  {
-    result.writeInFile(result.name + ".sol");
-  }
-  */
 
   return 0;
 }

@@ -9,6 +9,9 @@ build/flow/*
 build/lip/*
 !build/lip/CMakeLists.txt
 
+build/heur/*
+!build/heur/CMakeLists.txt
+
 solutions/*
 
 matching test/*
